@@ -137,7 +137,8 @@ h1 span{color:var(--amber)}
     <label class="nick" for="nick"><span class="lbl">Tvoje přezdívka do žebříčku</span>
       <input id="nick" maxlength="20" autocomplete="nickname" enterkeyhint="done" placeholder="např. Pepa z obrany"></label>
     <p class="err" id="nick-err" hidden>Napiš přezdívku, ať tě najdeme v žebříčku.</p>
-    <div class="pick" role="radiogroup" aria-label="Hráč" id="pick"></div>
+    <span class="lbl" id="pick-lbl">Za koho chceš kopat?</span>
+    <div class="pick" role="radiogroup" aria-labelledby="pick-lbl" id="pick"></div>
     <ul class="rules">
       <li>Zaměřovač jezdí po bráně. Ťukni kamkoliv a kopeš. Na kop máš 5 vteřin, pak je to zdržování a chyba.</li>
       <li>Na každého soupeře 5 penalt. 3 góly a jdeš dál, 3 chyby a sezóna končí.</li>
