@@ -52,6 +52,7 @@ button:focus-visible{outline:3px solid var(--amber);outline-offset:3px}
 h1{margin:0;font-family:var(--f-display);font-weight:400;font-size:clamp(42px,13vw,64px);line-height:.95;text-wrap:balance}
 h1 span{color:var(--amber)}
 .lead{margin:0;font-size:19px;line-height:1.3;color:#d8e0da;max-width:34ch}
+.pick-lbl{font-family:var(--f-display);font-size:19px;color:var(--amber);margin-top:4px}
 .pick{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .pick button{background:var(--board-2);border:3px solid #2c3a31;border-radius:10px;padding:10px 6px 8px;color:var(--chalk);
   display:flex;flex-direction:column;align-items:center;gap:6px;font-size:15px}
@@ -137,7 +138,7 @@ h1 span{color:var(--amber)}
     <label class="nick" for="nick"><span class="lbl">Tvoje přezdívka do žebříčku</span>
       <input id="nick" maxlength="20" autocomplete="nickname" enterkeyhint="done" placeholder="např. Pepa z obrany"></label>
     <p class="err" id="nick-err" hidden>Napiš přezdívku, ať tě najdeme v žebříčku.</p>
-    <span class="lbl" id="pick-lbl">Za koho chceš kopat?</span>
+    <span class="pick-lbl" id="pick-lbl">Za koho chceš kopat?</span>
     <div class="pick" role="radiogroup" aria-labelledby="pick-lbl" id="pick"></div>
     <ul class="rules">
       <li>Zaměřovač jezdí po bráně. Ťukni kamkoliv a kopeš. Na kop máš 5 vteřin, pak je to zdržování a chyba.</li>
