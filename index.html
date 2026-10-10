@@ -406,12 +406,6 @@ function drawPitch(){
   ctx.fillStyle='#10301c';ctx.fillRect(0,0,W,top);
   ctx.fillStyle='#0b2414';
   for(let i=0;i<14;i++){const x=i*W/13,r=W*.07+((i*37)%5)*3;ctx.beginPath();ctx.arc(x,G.gy*.55,r,0,Math.PI*2);ctx.fill();}
-  // ad boards
-  const by=G.gy*.62,bh=G.gy*.34;
-  ctx.fillStyle='#ffc832';ctx.fillRect(0,by,W,bh);
-  ctx.fillStyle='#2a5bd7';ctx.fillRect(0,by,W,3);ctx.fillRect(0,by+bh-3,W,3);
-  ctx.fillStyle='#1a1300';ctx.font=`${Math.min(bh*.62,W*.058)}px Bungee, Impact, sans-serif`;
-  ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('TRAVERZA ROSTOKLATY',W/2,by+bh/2+1);
   // grass
   ctx.fillStyle='#1f6136';ctx.fillRect(0,G.gy+G.gh*.25,W,H);
   const bands=7;for(let i=0;i<bands;i++){if(i%2)continue;const y0=top+(H-top)*i/bands;ctx.fillStyle='#226a3b';ctx.fillRect(0,y0,W,(H-top)/bands);}
