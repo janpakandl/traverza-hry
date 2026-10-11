@@ -95,6 +95,11 @@ h1 span{color:var(--amber)}
 .pts{font-family:var(--f-display);font-size:20px;font-variant-numeric:tabular-nums}
 .me{margin:0;background:#2a2614;border:2px solid var(--amber);border-radius:8px;padding:10px 12px;font-size:18px;font-weight:600;line-height:1.3}
 .credit{margin:auto 0 0;align-self:flex-end;font-size:13px;font-weight:600;letter-spacing:.06em;color:var(--muted);opacity:.8}
+.next{display:flex;flex-direction:column;gap:2px;background:var(--board-2);border:2px solid var(--amber);border-radius:10px;padding:10px 12px}
+.next .lbl{color:var(--amber)}
+.next b{font-size:21px;line-height:1.15}
+.next span{font-size:17px;font-weight:600;color:#d8e0da}
+.next .cta{font-family:var(--f-display);font-size:15px;color:var(--amber);margin-top:2px}
 .rules{margin:0;padding-left:1.1em;color:#d8e0da;font-size:17px;line-height:1.35;display:flex;flex-direction:column;gap:4px}
 
 /* result card, built for a screenshot */
@@ -139,6 +144,12 @@ h1 span{color:var(--amber)}
   <section id="start" class="screen">
     <p class="eyebrow">Okresní penalty · sezóna 2026/27</p>
     <h1>Traverza <span>Penalty</span></h1>
+    <div class="next" id="next" hidden>
+      <span class="lbl" id="next-lbl">Příští domácí zápas</span>
+      <b id="next-teams"></b>
+      <span id="next-when"></span>
+      <span class="cta">Přijď fandit!</span>
+    </div>
     <p class="lead">Celý okres čeká v bráně. Vyber, kdo jde k míči.</p>
     <label class="nick" for="nick"><span class="lbl">Tvoje přezdívka do žebříčku</span>
       <input id="nick" maxlength="20" autocomplete="nickname" enterkeyhint="done" placeholder="např. Pepa z obrany"></label>
@@ -416,6 +427,15 @@ function drawPitch(){
   ctx.fillStyle='#10301c';ctx.fillRect(0,0,W,top);
   ctx.fillStyle='#0b2414';
   for(let i=0;i<14;i++){const x=i*W/13,r=W*.07+((i*37)%5)*3;ctx.beginPath();ctx.arc(x,G.gy*.55,r,0,Math.PI*2);ctx.fill();}
+  if(NEXT){
+    const by=G.gy*.6,bh=G.gy*.36,w=nextWhen(NEXT);
+    const txt=`${w.wd} ${w.dm} ${NEXT.time||''} · TRAVERZA – ${NEXT.away}`.toUpperCase().replace(/\s+/g,' ');
+    ctx.fillStyle='#ffc832';ctx.fillRect(0,by,W,bh);
+    ctx.fillStyle='#2a5bd7';ctx.fillRect(0,by,W,3);ctx.fillRect(0,by+bh-3,W,3);
+    let fs=Math.min(bh*.58,W*.06);ctx.font=`${fs}px Bungee, Impact, sans-serif`;
+    const tw=ctx.measureText(txt).width;if(tw>W*.94){fs*=W*.94/tw;ctx.font=`${fs}px Bungee, Impact, sans-serif`;}
+    ctx.fillStyle='#1a1300';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(txt,W/2,by+bh/2+1);
+  }
   // grass
   ctx.fillStyle='#1f6136';ctx.fillRect(0,G.gy+G.gh*.25,W,H);
   const bands=7;for(let i=0;i<bands;i++){if(i%2)continue;const y0=top+(H-top)*i/bands;ctx.fillStyle='#226a3b';ctx.fillRect(0,y0,W,(H-top)/bands);}
@@ -552,13 +572,23 @@ function showResult(){
 }
 
 /* ---------- leaderboard ---------- */
-let BOARD=null,boardDay=null,lastRun=null,boardFrom='start';
+let BOARD=null,boardDay=null,lastRun=null,boardFrom='start',NEXT=null;
+const WD=['Ne','Po','Út','St','Čt','Pá','So'];
+function nextWhen(n){const [y,m,d]=n.date.split('-').map(Number);return {wd:WD[new Date(y,m-1,d).getDay()],dm:d+'. '+m+'.'};}
+function renderNext(){
+  const box=$('next');if(!NEXT){box.hidden=true;return;}
+  const w=nextWhen(NEXT);
+  $('next-lbl').textContent='Příští domácí zápas'+(NEXT.round?' · '+NEXT.round:'');
+  $('next-teams').textContent=NEXT.home+' – '+NEXT.away;
+  $('next-when').textContent=[w.wd+' '+w.dm,NEXT.time,NEXT.place?'hřiště '+NEXT.place:''].filter(Boolean).join(' · ');
+  box.hidden=false;
+}
 async function api(params){
   if(!API||API.startsWith('__'))throw new Error('noapi');
   const q=new URLSearchParams(Object.assign({},params,{t:Date.now()}));
   const r=await fetch(API+'?'+q.toString());
   if(!r.ok)throw new Error('http');
-  const j=await r.json();if(!j.ok)throw new Error(j.error||'api');return j;
+  const j=await r.json();if(!j.ok)throw new Error(j.error||'api');if('next' in j){NEXT=j.next;renderNext();}return j;
 }
 const rankOf=(day,run)=>day?day.rows.findIndex(r=>r.n.toLowerCase()===run.nick.toLowerCase())+1:0;
 async function submitRun(){
@@ -683,6 +713,7 @@ $('days').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)
 $('again').addEventListener('click',()=>{audioInit();$('result').hidden=true;newRun();});
 $('change').addEventListener('click',()=>{$('result').hidden=true;S=null;renderPick();$('start').hidden=false;});
 
+api({action:'list'}).then(j=>{BOARD=j;}).catch(()=>{});
 resize();
 requestAnimationFrame(t=>{last=t;resize();requestAnimationFrame(frame);});
 </script>
