@@ -147,8 +147,6 @@ h1 span{color:var(--amber)}
     <div class="next" id="next" hidden>
       <span class="lbl" id="next-lbl">Příští domácí zápas</span>
       <b id="next-teams"></b>
-      <span id="next-when"></span>
-      <span class="cta">Přijď fandit!</span>
     </div>
     <p class="lead">Celý okres čeká v bráně. Vyber, kdo jde k míči.</p>
     <label class="nick" for="nick"><span class="lbl">Tvoje přezdívka do žebříčku</span>
@@ -429,7 +427,7 @@ function drawPitch(){
   for(let i=0;i<14;i++){const x=i*W/13,r=W*.07+((i*37)%5)*3;ctx.beginPath();ctx.arc(x,G.gy*.55,r,0,Math.PI*2);ctx.fill();}
   if(NEXT){
     const by=G.gy*.6,bh=G.gy*.36,w=nextWhen(NEXT);
-    const txt=`${w.wd} ${w.dm} ${NEXT.time||''} · TRAVERZA – ${NEXT.away}`.toUpperCase().replace(/\s+/g,' ');
+    const txt=nextLine(NEXT).toUpperCase();
     ctx.fillStyle='#ffc832';ctx.fillRect(0,by,W,bh);
     ctx.fillStyle='#2a5bd7';ctx.fillRect(0,by,W,3);ctx.fillRect(0,by+bh-3,W,3);
     let fs=Math.min(bh*.58,W*.06);ctx.font=`${fs}px Bungee, Impact, sans-serif`;
@@ -575,12 +573,11 @@ function showResult(){
 let BOARD=null,boardDay=null,lastRun=null,boardFrom='start',NEXT=null;
 const WD=['Ne','Po','Út','St','Čt','Pá','So'];
 function nextWhen(n){const [y,m,d]=n.date.split('-').map(Number);return {wd:WD[new Date(y,m-1,d).getDay()],dm:d+'. '+m+'.'};}
+function nextLine(n){const w=nextWhen(n);return `Traverza - ${n.away}, ${w.wd} ${w.dm}${n.time?' v '+n.time:''}. Doraž`;}
 function renderNext(){
   const box=$('next');if(!NEXT){box.hidden=true;return;}
   const w=nextWhen(NEXT);
-  $('next-lbl').textContent='Příští domácí zápas'+(NEXT.round?' · '+NEXT.round:'');
-  $('next-teams').textContent=NEXT.home+' – '+NEXT.away;
-  $('next-when').textContent=[w.wd+' '+w.dm,NEXT.time,NEXT.place?'hřiště '+NEXT.place:''].filter(Boolean).join(' · ');
+  $('next-teams').textContent=nextLine(NEXT);
   box.hidden=false;
 }
 async function api(params){
