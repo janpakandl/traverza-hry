@@ -39,7 +39,8 @@ button:focus-visible{outline:3px solid var(--amber);outline-offset:3px}
 /* pitch */
 #stage{flex:1;position:relative;min-height:0;border-radius:8px;overflow:hidden;background:var(--turf);touch-action:none}
 #cv{display:block;width:100%;height:100%}
-.mute{position:absolute;top:8px;right:8px;z-index:3;width:42px;height:42px;padding:0;border-radius:50%;display:grid;place-items:center;
+.sc{display:flex;align-items:center;gap:10px}
+.mute{width:36px;height:36px;flex:0 0 auto;padding:0;border-radius:50%;display:grid;place-items:center;
   background:rgba(10,14,12,.65);border:2px solid rgba(244,242,232,.45);color:var(--chalk);cursor:pointer}
 .mute[aria-pressed="true"]{color:#ff8a80;border-color:rgba(255,138,128,.6)}
 #float{position:absolute;left:50%;top:38%;transform:translate(-50%,0);font-family:var(--f-display);font-size:34px;
@@ -136,9 +137,9 @@ h1 span{color:var(--amber)}
   <div class="sub">
     <span id="round">Zápas 1/11</span>
     <span class="dots" id="dots" aria-label="Penalty v zápase"></span>
-    <span><b id="score">0</b> b.</span>
+    <span class="sc"><span><b id="score">0</b> b.</span><button id="mute" class="mute" type="button"></button></span>
   </div>
-  <div id="stage"><canvas id="cv"></canvas><div id="float"></div><button id="mute" class="mute" type="button"></button></div>
+  <div id="stage"><canvas id="cv"></canvas><div id="float"></div></div>
   <p class="comment" id="comment">Ťukni na hřiště a pal.</p>
 
   <section id="start" class="screen">
@@ -426,13 +427,16 @@ function drawPitch(){
   ctx.fillStyle='#0b2414';
   for(let i=0;i<14;i++){const x=i*W/13,r=W*.07+((i*37)%5)*3;ctx.beginPath();ctx.arc(x,G.gy*.55,r,0,Math.PI*2);ctx.fill();}
   if(NEXT){
-    const by=G.gy*.6,bh=G.gy*.36,w=nextWhen(NEXT);
-    const txt=nextLine(NEXT).toUpperCase();
+    const by=G.gy*.36,bh=G.gy*.6,w=nextWhen(NEXT);
+    const lines=[`TRAVERZA - ${NEXT.away}`.toUpperCase(),`${w.wd} ${w.dm}${NEXT.time?' v '+NEXT.time:''}. Doraž`.toUpperCase()];
     ctx.fillStyle='#ffc832';ctx.fillRect(0,by,W,bh);
     ctx.fillStyle='#2a5bd7';ctx.fillRect(0,by,W,3);ctx.fillRect(0,by+bh-3,W,3);
-    let fs=Math.min(bh*.58,W*.06);ctx.font=`${fs}px Bungee, Impact, sans-serif`;
-    const tw=ctx.measureText(txt).width;if(tw>W*.94){fs*=W*.94/tw;ctx.font=`${fs}px Bungee, Impact, sans-serif`;}
-    ctx.fillStyle='#1a1300';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(txt,W/2,by+bh/2+1);
+    ctx.fillStyle='#1a1300';ctx.textAlign='center';ctx.textBaseline='middle';
+    lines.forEach((t,i)=>{
+      let fs=Math.min(bh*.36,W*.065);ctx.font=`${fs}px Bungee, Impact, sans-serif`;
+      const tw=ctx.measureText(t).width;if(tw>W*.94){fs*=W*.94/tw;ctx.font=`${fs}px Bungee, Impact, sans-serif`;}
+      ctx.fillText(t,W/2,by+bh*(i?.72:.3));
+    });
   }
   // grass
   ctx.fillStyle='#1f6136';ctx.fillRect(0,G.gy+G.gh*.25,W,H);
