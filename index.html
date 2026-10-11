@@ -228,6 +228,9 @@ const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
 const ss={get(k){try{return sessionStorage.getItem(k)}catch(e){return null}},set(k,v){try{sessionStorage.setItem(k,v)}catch(e){}}};
 let nick=ss.get('traverza-nick')||'';
+const ZAKAZANE=['kurv','kurev','pica','pice','picu','picus','picovin','kokot','debil','mrdat','mrdka','mrdk','zmrd','prdel','curak','curac','hovno','hovad','sracka','srac','jebat','jebe','jebn','jeban','vyjeb','kreten','idiot','retard','buzn','buzerant','teplous','cikan','cigan','negr','nigg','kunda','pizd','chuj','skurven','fuck','shit','bitch','cunt','dick','hitler','nacist','http','www'];
+const normal=s=>String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/0/g,'o').replace(/1/g,'i').replace(/3/g,'e').replace(/4/g,'a').replace(/5/g,'s').replace(/7/g,'t').replace(/@/g,'a').replace(/\$/g,'s').replace(/[^a-z]/g,'');
+const nameOk=n=>!/[<>]/.test(n)&&!ZAKAZANE.some(w=>normal(n).includes(w));
 const best=id=>parseInt(store.get('traverza-best-'+id)||'0',10)||0;
 
 const IMG={};
@@ -559,7 +562,9 @@ async function submitRun(){
     const k=rankOf(j.days.find(x=>x.day===j.today),run);
     if(run===lastRun)$('saved').textContent=k?`Uloženo. V dnešním žebříčku jsi ${k}.`:'Uloženo do žebříčku.';
   }catch(e){
-    if(run===lastRun)$('saved').textContent=e.message==='noapi'?'Žebříček zatím není zapojený.':'Skóre se nepodařilo uložit. Zkusím to znovu, až otevřeš žebříček.';
+    const why={noapi:'Žebříček zatím není zapojený.',bad_name:'Přezdívka neprošla filtrem, skóre se neuložilo.',bad_score:'Tohle skóre žebříček nepřijal.',too_fast:'Dvě hry moc rychle po sobě, tohle kolo se neuložilo.',busy:'Žebříček je teď přetížený, tohle kolo se neuložilo.'};
+    if(['bad_name','bad_score','too_fast','busy'].includes(e.message))run.final=true;
+    if(run===lastRun)$('saved').textContent=why[e.message]||'Skóre se nepodařilo uložit. Zkusím to znovu, až otevřeš žebříček.';
   }
 }
 function dayLabel(d,today){
@@ -574,7 +579,7 @@ async function openBoard(from){
   $('board-me').hidden=true;$('list').innerHTML='';$('days').innerHTML='';
   $('board-msg').textContent='Načítám žebříček…';$('board-retry').hidden=true;
   try{
-    if(from==='result'&&lastRun){await lastRun.p;if(!lastRun.saved){lastRun.p=submitRun();await lastRun.p;}}
+    if(from==='result'&&lastRun){await lastRun.p;if(!lastRun.saved&&!lastRun.final){lastRun.p=submitRun();await lastRun.p;}}
     if(!(from==='result'&&lastRun&&lastRun.saved)){BOARD=await api({action:'list'});}
     boardDay=BOARD.today;
     renderBoard();
@@ -609,7 +614,7 @@ document.addEventListener('keydown',e=>{if(e.code==='Space'||e.code==='Enter'){i
 $('nick').value=nick;
 $('go').addEventListener('click',()=>{
   const v=$('nick').value.trim().slice(0,20);
-  if(!v){$('nick-err').hidden=false;$('nick').focus();return;}
+  if(!v||!nameOk(v)){$('nick-err').textContent=v?'Tahle přezdívka neprojde filtrem. Zvol jinou.':'Napiš přezdívku, ať tě najdeme v žebříčku.';$('nick-err').hidden=false;$('nick').focus();return;}
   nick=v;ss.set('traverza-nick',v);$('nick-err').hidden=true;
   $('start').hidden=true;newRun();
 });
