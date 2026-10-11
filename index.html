@@ -116,7 +116,12 @@ h1 span{color:var(--amber)}
 .steps{margin:0;padding-left:1.4em;display:flex;flex-direction:column;gap:10px;font-size:18px;line-height:1.3;color:#d8e0da}
 .steps b{color:var(--chalk)}
 .next-prize{margin:0;border:2px solid var(--amber);border-radius:8px;padding:10px 12px;font-size:17px;font-weight:600}
-.pos .beer{width:26px;height:26px;display:block;margin:0 auto}
+.pos .beer{width:24px;height:24px;display:block;margin:0 auto}
+.pos small{display:block;font-family:var(--f-body);font-size:12px;font-weight:700;color:var(--amber);line-height:1}
+.list li.win{border:2px solid var(--amber)}
+.modes{display:grid;grid-template-columns:1fr 1fr;background:var(--board-2);border-radius:10px;padding:4px;gap:4px}
+.modes button{font-family:var(--f-display);font-size:15px;border:0;border-radius:7px;padding:10px 6px;background:transparent;color:var(--muted)}
+.modes button[aria-selected="true"]{background:var(--amber);color:#1a1300}
 .today-prize{margin:0;font-size:16px;font-weight:600;color:var(--amber)}
 .rules{margin:0;padding-left:1.1em;color:#d8e0da;font-size:17px;line-height:1.35;display:flex;flex-direction:column;gap:4px}
 
@@ -168,7 +173,7 @@ h1 span{color:var(--amber)}
     </div>
     <button class="prize" id="prize-open" type="button">
       <svg class="beer" viewBox="0 0 48 48" aria-hidden="true"><path d="M10 15h22v25a3 3 0 0 1-3 3H13a3 3 0 0 1-3-3z" fill="#ffc832" stroke="#1a1300" stroke-width="2.5"/><path d="M32 20h4a4 4 0 0 1 4 4v7a4 4 0 0 1-4 4h-4" fill="none" stroke="#1a1300" stroke-width="2.5"/><path d="M8 15c0-4 3-7 7-6 1-3 5-4 7-2 2-2 6-2 8 1 3 0 5 3 4 7z" fill="#fff" stroke="#1a1300" stroke-width="2.5"/><path d="M17 23v13M24 23v13" stroke="#1a1300" stroke-width="2" opacity=".35"/></svg>
-      <span class="prize-txt"><b>Hraje se o pivo</b><span>Vítěz každého denního žebříčku bere cenu na domácím zápase.</span></span>
+      <span class="prize-txt"><b>Hraje se o pivo</b><span>Tři nejlepší z týdenního žebříčku berou cenu na domácím zápase.</span></span>
       <span class="prize-more">Jak to funguje</span>
     </button>
     <label class="nick" for="nick"><span class="lbl">Tvoje přezdívka do žebříčku</span>
@@ -215,11 +220,12 @@ h1 span{color:var(--amber)}
 
   <section id="prizes" class="screen" hidden>
     <div class="bhead"><h2 class="btitle">O co se hraje</h2><button id="prizes-back" class="ghost small">Zpět</button></div>
-    <div class="prize-hero"><svg class="beer" viewBox="0 0 48 48" aria-hidden="true"><path d="M10 15h22v25a3 3 0 0 1-3 3H13a3 3 0 0 1-3-3z" fill="#ffc832" stroke="#1a1300" stroke-width="2.5"/><path d="M32 20h4a4 4 0 0 1 4 4v7a4 4 0 0 1-4 4h-4" fill="none" stroke="#1a1300" stroke-width="2.5"/><path d="M8 15c0-4 3-7 7-6 1-3 5-4 7-2 2-2 6-2 8 1 3 0 5 3 4 7z" fill="#fff" stroke="#1a1300" stroke-width="2.5"/><path d="M17 23v13M24 23v13" stroke="#1a1300" stroke-width="2" opacity=".35"/></svg><p><b>Pivo pro vítěze dne.</b> Kdo je večer na 1. místě denního žebříčku, vyhrává.</p></div>
+    <div class="prize-hero"><svg class="beer" viewBox="0 0 48 48" aria-hidden="true"><path d="M10 15h22v25a3 3 0 0 1-3 3H13a3 3 0 0 1-3-3z" fill="#ffc832" stroke="#1a1300" stroke-width="2.5"/><path d="M32 20h4a4 4 0 0 1 4 4v7a4 4 0 0 1-4 4h-4" fill="none" stroke="#1a1300" stroke-width="2.5"/><path d="M8 15c0-4 3-7 7-6 1-3 5-4 7-2 2-2 6-2 8 1 3 0 5 3 4 7z" fill="#fff" stroke="#1a1300" stroke-width="2.5"/><path d="M17 23v13M24 23v13" stroke="#1a1300" stroke-width="2" opacity=".35"/></svg><p><b>Pivo pro tři nejlepší týdne.</b> O ceny rozhoduje týdenní žebříček.</p></div>
     <ol class="steps">
-      <li><b>Každý den nový žebříček.</b> Počítá se od půlnoci do půlnoci, z každé přezdívky jen nejlepší výsledek.</li>
-      <li><b>Vítěz dne bere pivo</b> nebo jinou cenu, kterou připravíme.</li>
-      <li><b>Cenu vyzvedneš na domácím zápase Traverzy.</b> Stačí ukázat svou přezdívku v žebříčku daného dne.</li>
+      <li><b>Týden trvá od soboty do pátku.</b> Uzavírá se v pátek o půlnoci, takže v sobotu na zápase už jsou výsledky jasné.</li>
+      <li><b>Tři nejlepší skóre týdne vyhrávají</b> pivo nebo jinou cenu, kterou připravíme. Z každé přezdívky se počítá jen nejlepší výsledek.</li>
+      <li><b>Ceny se předávají na domácím zápase Traverzy.</b> Stačí ukázat svou přezdívku v týdenním žebříčku.</li>
+      <li><b>Denní žebříčky jsou jen pro zábavu,</b> ať se můžete hecovat každý den.</li>
       <li><b>Hraje se fér.</b> Podezřelé výsledky a sprosté přezdívky ze žebříčku mažeme a cenu nedostanou.</li>
     </ol>
     <p class="next-prize" id="prize-next" hidden></p>
@@ -231,8 +237,12 @@ h1 span{color:var(--amber)}
   <section id="board" class="screen" hidden>
     <div class="bhead"><h2 class="btitle">Žebříček</h2><button id="board-back" class="ghost small">Zpět</button></div>
     <p class="me" id="board-me" hidden></p>
-    <div class="days" id="days" role="tablist" aria-label="Den"></div>
-    <p class="today-prize" id="today-prize" hidden>Kdo bude dnes večer první, vyhrává pivo.</p>
+    <div class="modes" id="modes" role="tablist" aria-label="Žebříček" hidden>
+      <button id="m-week" role="tab" aria-selected="true">Týden o ceny</button>
+      <button id="m-day" role="tab" aria-selected="false">Denní</button>
+    </div>
+    <div class="days" id="days" role="tablist" aria-label="Období"></div>
+    <p class="today-prize" id="board-info"></p>
     <ol class="list" id="list"></ol>
     <p class="hint" id="board-msg"></p>
     <button id="board-retry" class="ghost" hidden>Načíst znovu</button>
@@ -608,7 +618,7 @@ function showResult(){
 
 /* ---------- leaderboard ---------- */
 const BEER='<svg class="beer" viewBox="0 0 48 48" aria-hidden="true"><path d="M10 15h22v25a3 3 0 0 1-3 3H13a3 3 0 0 1-3-3z" fill="#ffc832" stroke="#1a1300" stroke-width="2.5"/><path d="M32 20h4a4 4 0 0 1 4 4v7a4 4 0 0 1-4 4h-4" fill="none" stroke="#1a1300" stroke-width="2.5"/><path d="M8 15c0-4 3-7 7-6 1-3 5-4 7-2 2-2 6-2 8 1 3 0 5 3 4 7z" fill="#fff" stroke="#1a1300" stroke-width="2.5"/><path d="M17 23v13M24 23v13" stroke="#1a1300" stroke-width="2" opacity=".35"/></svg>';
-let BOARD=null,boardDay=null,lastRun=null,boardFrom='start',NEXT=null;
+let boardMode='week',boardWeek=null,BOARD=null,boardDay=null,lastRun=null,boardFrom='start',NEXT=null;
 const WD=['Ne','Po','Út','St','Čt','Pá','So'];
 function nextWhen(n){const [y,m,d]=n.date.split('-').map(Number);return {wd:WD[new Date(y,m-1,d).getDay()],dm:d+'. '+m+'.'};}
 function nextLine(n){const w=nextWhen(n);return `Traverza - ${n.away}, ${w.wd} ${w.dm}${n.time?' v '+n.time:''}. Doraž`;}
@@ -632,8 +642,8 @@ async function submitRun(){
   try{
     const j=await api({action:'add',name:run.nick,player:run.pid,score:run.score,beaten:run.beaten,goals:run.goals});
     run.saved=true;BOARD=j;boardDay=j.today;
-    const k=rankOf(j.days.find(x=>x.day===j.today),run);
-    if(run===lastRun)$('saved').textContent=k?`Uloženo. V dnešním žebříčku jsi ${k}.`:'Uloženo do žebříčku.';
+    const k=rankOf(j.days.find(x=>x.day===j.today),run),kw=weekRank(j,run.nick);
+    if(run===lastRun)$('saved').textContent=kw?`Uloženo. V týdnu jsi ${kw}.${kw<=3?' Jsi na cenách!':''} Dnes ${k}.`:k?`Uloženo. V dnešním žebříčku jsi ${k}.`:'Uloženo do žebříčku.';
   }catch(e){
     const why={noapi:'Žebříček zatím není zapojený.',bad_name:'Přezdívka neprošla filtrem, skóre se neuložilo.',bad_score:'Tohle skóre žebříček nepřijal.',too_fast:'Dvě hry moc rychle po sobě, tohle kolo se neuložilo.',busy:'Žebříček je teď přetížený, tohle kolo se neuložilo.'};
     if(['bad_name','bad_score','too_fast','busy'].includes(e.message))run.final=true;
@@ -654,30 +664,54 @@ async function openBoard(from){
   try{
     if(from==='result'&&lastRun){await lastRun.p;if(!lastRun.saved&&!lastRun.final){lastRun.p=submitRun();await lastRun.p;}}
     if(!(from==='result'&&lastRun&&lastRun.saved)){BOARD=await api({action:'list'});}
-    boardDay=BOARD.today;
+    boardDay=BOARD.today;boardWeek=null;
     renderBoard();
   }catch(e){
     $('board-msg').textContent=e.message==='noapi'?'Žebříček zatím není zapojený.':'Žebříček se nepodařilo načíst. Zkontroluj internet a zkus to znovu.';
     $('board-retry').hidden=e.message==='noapi';
   }
 }
+const dm=d=>{const p=d.split('-').map(Number);return p[2]+'. '+p[1]+'.';};
+const weekRank=(j,name)=>{const w=j&&j.weeks&&j.weeks[0];return w?w.rows.findIndex(r=>r.n.toLowerCase()===name.toLowerCase())+1:0;};
 function renderBoard(){
   $('board-msg').textContent='';$('board-retry').hidden=true;
-  $('days').innerHTML=BOARD.days.map(x=>`<button role="tab" aria-selected="${x.day===boardDay}" data-day="${x.day}">${dayLabel(x.day,BOARD.today)}</button>`).join('');
-  const day=BOARD.days.find(x=>x.day===boardDay)||BOARD.days[0],me=(nick||'').toLowerCase(),list=$('list');
-  const showMe=boardFrom==='result'&&lastRun&&lastRun.saved&&day.day===BOARD.today,k=showMe?rankOf(day,lastRun):0;
+  const hasW=Array.isArray(BOARD.weeks)&&BOARD.weeks.length>0;
+  if(!hasW)boardMode='day';
+  $('modes').hidden=!hasW;
+  $('m-week').setAttribute('aria-selected',String(boardMode==='week'));
+  $('m-day').setAttribute('aria-selected',String(boardMode==='day'));
+  const me=(nick||'').toLowerCase(),list=$('list'),fromRun=boardFrom==='result'&&lastRun&&lastRun.saved;
+  let rows,prize=false,current=false,empty;
+  if(boardMode==='week'){
+    if(!BOARD.weeks.some(w=>w.start===boardWeek))boardWeek=BOARD.weeks[0].start;
+    $('days').innerHTML=BOARD.weeks.map((w,i)=>`<button role="tab" aria-selected="${w.start===boardWeek}" data-week="${w.start}">${i===0?'Tento týden':i===1?'Minulý týden':dm(w.start)+' – '+dm(w.end)}</button>`).join('');
+    const wk=BOARD.weeks.find(w=>w.start===boardWeek);
+    rows=wk.rows;prize=true;current=wk===BOARD.weeks[0];
+    $('board-info').textContent=current
+      ?`So ${dm(wk.start)} – pá ${dm(wk.end)} Uzavírá se v pátek o půlnoci. První tři berou cenu na domácím zápase.`
+      :`So ${dm(wk.start)} – pá ${dm(wk.end)} Uzavřeno, ceny berou první tři.`;
+    empty=current?'Tento týden zatím nikdo nehrál. Buď první.':'Tenhle týden nikdo nehrál.';
+  }else{
+    $('days').innerHTML=BOARD.days.map(x=>`<button role="tab" aria-selected="${x.day===boardDay}" data-day="${x.day}">${dayLabel(x.day,BOARD.today)}</button>`).join('');
+    const day=BOARD.days.find(x=>x.day===boardDay)||BOARD.days[0];
+    rows=day.rows;current=day.day===BOARD.today;
+    $('board-info').textContent='Denní žebříček je jen pro zábavu. O ceny se hraje v týdenním.';
+    empty=current?'Dnes zatím nikdo nehrál. Buď první.':'Tenhle den nikdo nehrál.';
+  }
   list.innerHTML='';
-  day.rows.forEach((r,i)=>{
-    const li=document.createElement('li');if(me&&r.n.toLowerCase()===me)li.className='me';
-    li.innerHTML=`<span class="pos" ${i?'':'title="Vítěz dne"'}>${i?(i+1)+'.':BEER}</span>${FACES[r.h]?`<img src="${FACES[r.h]}" alt="">`:'<span></span>'}<span class="who"><b></b><small>poraženo ${Number(r.b)||0}</small></span><span class="pts">${Number(r.s)||0}</span>`;
+  rows.forEach((r,i)=>{
+    const li=document.createElement('li'),win=prize&&i<3;
+    li.className=[me&&r.n.toLowerCase()===me?'me':'',win?'win':''].filter(Boolean).join(' ');
+    li.innerHTML=`<span class="pos"${win?' title="Cena"':''}>${win?BEER+'<small>'+(i+1)+'.</small>':(i+1)+'.'}</span>${FACES[r.h]?`<img src="${FACES[r.h]}" alt="">`:'<span></span>'}<span class="who"><b></b><small>poraženo ${Number(r.b)||0}</small></span><span class="pts">${Number(r.s)||0}</span>`;
     li.querySelector('b').textContent=r.n;list.appendChild(li);
   });
-  $('today-prize').hidden=day.day!==BOARD.today;
-  if(!day.rows.length)$('board-msg').textContent=day.day===BOARD.today?'Dnes zatím nikdo nehrál. Buď první.':'Tenhle den nikdo nehrál.';
+  if(!rows.length)$('board-msg').textContent=empty;
+  const showMe=fromRun&&current;
   $('board-me').hidden=!showMe;
   if(showMe){
-    const mine=day.rows.find(r=>r.n.toLowerCase()===lastRun.nick.toLowerCase());
-    $('board-me').textContent=`Tvoje kolo: ${lastRun.score} bodů.`+(k?` V dnešním žebříčku jsi ${k}.`:'')+(mine&&mine.s>lastRun.score?` Počítá se tvůj dnešní nejlepší výsledek ${mine.s}.`:'');
+    const mine=rows.find(r=>r.n.toLowerCase()===lastRun.nick.toLowerCase()),k=rows.indexOf(mine)+1;
+    $('board-me').textContent=`Tvoje kolo: ${lastRun.score} bodů.`+(k?(boardMode==='week'?` V týdenním žebříčku jsi ${k}.`:` V dnešním žebříčku jsi ${k}.`):'')
+      +(mine&&mine.s>lastRun.score?` Počítá se tvůj nejlepší výsledek ${mine.s}.`:'')+(boardMode==='week'&&k&&k<=3?' Teď jsi na cenách!':'');
     const el=list.querySelector('.me');if(el)el.scrollIntoView({block:'center'});
   }
 }
@@ -753,7 +787,9 @@ $('prizes-play').addEventListener('click',()=>{$('prizes').hidden=true;$('start'
 $('res-board').addEventListener('click',()=>openBoard('result'));
 $('board-back').addEventListener('click',()=>{$('board').hidden=true;$(boardFrom).hidden=false;});
 $('board-retry').addEventListener('click',()=>openBoard(boardFrom));
-$('days').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;boardDay=b.dataset.day;renderBoard();});
+$('days').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.week)boardWeek=b.dataset.week;else boardDay=b.dataset.day;renderBoard();});
+$('m-week').addEventListener('click',()=>{boardMode='week';renderBoard();});
+$('m-day').addEventListener('click',()=>{boardMode='day';renderBoard();});
 $('again').addEventListener('click',()=>{audioInit();$('result').hidden=true;newRun();});
 $('change').addEventListener('click',()=>{$('result').hidden=true;S=null;renderPick();$('start').hidden=false;});
 
