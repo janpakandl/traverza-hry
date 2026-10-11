@@ -91,6 +91,7 @@ h1 span{color:var(--amber)}
 .who small{color:var(--muted);font-size:14px;font-weight:600}
 .pts{font-family:var(--f-display);font-size:20px;font-variant-numeric:tabular-nums}
 .me{margin:0;background:#2a2614;border:2px solid var(--amber);border-radius:8px;padding:10px 12px;font-size:18px;font-weight:600;line-height:1.3}
+.credit{margin:auto 0 0;align-self:flex-end;font-size:13px;font-weight:600;letter-spacing:.06em;color:var(--muted);opacity:.8}
 .rules{margin:0;padding-left:1.1em;color:#d8e0da;font-size:17px;line-height:1.35;display:flex;flex-direction:column;gap:4px}
 
 /* result card, built for a screenshot */
@@ -149,6 +150,7 @@ h1 span{color:var(--amber)}
     </ul>
     <button id="go" class="btn">Na penaltu</button>
     <button id="to-board" class="ghost">Žebříček</button>
+    <p class="credit">vyrobil Hanz</p>
   </section>
 
   <section id="result" class="screen" hidden>
@@ -175,6 +177,7 @@ h1 span{color:var(--amber)}
       <button id="res-board" class="btn">Žebříček</button>
     </div>
     <button id="change" class="ghost">Jiný hráč</button>
+    <p class="credit">vyrobil Hanz</p>
   </section>
 
   <section id="board" class="screen" hidden>
@@ -184,6 +187,7 @@ h1 span{color:var(--amber)}
     <ol class="list" id="list"></ol>
     <p class="hint" id="board-msg"></p>
     <button id="board-retry" class="ghost" hidden>Načíst znovu</button>
+    <p class="credit">vyrobil Hanz</p>
   </section>
 </div>
 
