@@ -672,6 +672,8 @@ async function openBoard(from){
   }
 }
 const dm=d=>{const p=d.split('-').map(Number);return p[2]+'. '+p[1]+'.';};
+const left=end=>{const p=end.split('-').map(Number),ms=new Date(p[0],p[1]-1,p[2],23,59,59)-Date.now();if(ms<=0)return '';
+  const h=Math.floor(ms/36e5),d=Math.floor(h/24);return ' (zbývá '+(d?d+' d '+(h%24)+' h':h?h+' h '+Math.floor(ms%36e5/6e4)+' min':Math.max(1,Math.floor(ms/6e4))+' min')+')';};
 const weekRank=(j,name)=>{const w=j&&j.weeks&&j.weeks[0];return w?w.rows.findIndex(r=>r.n.toLowerCase()===name.toLowerCase())+1:0;};
 function renderBoard(){
   $('board-msg').textContent='';$('board-retry').hidden=true;
@@ -688,7 +690,7 @@ function renderBoard(){
     const wk=BOARD.weeks.find(w=>w.start===boardWeek);
     rows=wk.rows;prize=true;current=wk===BOARD.weeks[0];
     $('board-info').textContent=current
-      ?`So ${dm(wk.start)} – pá ${dm(wk.end)} Uzavírá se v pátek o půlnoci. První tři berou cenu na domácím zápase.`
+      ?`So ${dm(wk.start)} – pá ${dm(wk.end)} Žebříček končí v pátek ${dm(wk.end)} ve 23:59${left(wk.end)}. První tři berou cenu na domácím zápase.`
       :`So ${dm(wk.start)} – pá ${dm(wk.end)} Uzavřeno, ceny berou první tři.`;
     empty=current?'Tento týden zatím nikdo nehrál. Buď první.':'Tenhle týden nikdo nehrál.';
   }else{
