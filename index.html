@@ -550,7 +550,7 @@ async function api(params){
   if(!r.ok)throw new Error('http');
   const j=await r.json();if(!j.ok)throw new Error(j.error||'api');return j;
 }
-const rankOf=(day,run)=>day?day.rows.findIndex(r=>r.n.toLowerCase()===run.nick.toLowerCase()&&Number(r.s)===run.score)+1:0;
+const rankOf=(day,run)=>day?day.rows.findIndex(r=>r.n.toLowerCase()===run.nick.toLowerCase())+1:0;
 async function submitRun(){
   const run=lastRun;$('saved').textContent='Ukládám do žebříčku…';
   try{
@@ -590,7 +590,7 @@ function renderBoard(){
   const showMe=boardFrom==='result'&&lastRun&&lastRun.saved&&day.day===BOARD.today,k=showMe?rankOf(day,lastRun):0;
   list.innerHTML='';
   day.rows.forEach((r,i)=>{
-    const li=document.createElement('li');if(showMe&&k?i===k-1:me&&r.n.toLowerCase()===me)li.className='me';
+    const li=document.createElement('li');if(me&&r.n.toLowerCase()===me)li.className='me';
     li.innerHTML=`<span class="pos">${i+1}.</span>${FACES[r.h]?`<img src="${FACES[r.h]}" alt="">`:'<span></span>'}<span class="who"><b></b><small>poraženo ${Number(r.b)||0}</small></span><span class="pts">${Number(r.s)||0}</span>`;
     li.querySelector('b').textContent=r.n;list.appendChild(li);
   });
@@ -598,7 +598,7 @@ function renderBoard(){
   $('board-me').hidden=!showMe;
   if(showMe){
     const mine=day.rows.find(r=>r.n.toLowerCase()===lastRun.nick.toLowerCase());
-    $('board-me').textContent=`Tvoje kolo: ${lastRun.score} bodů.`+(k?` V dnešním žebříčku je ${k}.`:'')+(mine&&mine.s>lastRun.score?` Tvůj dnešní nejlepší výsledek je ${mine.s}.`:'');
+    $('board-me').textContent=`Tvoje kolo: ${lastRun.score} bodů.`+(k?` V dnešním žebříčku jsi ${k}.`:'')+(mine&&mine.s>lastRun.score?` Počítá se tvůj dnešní nejlepší výsledek ${mine.s}.`:'');
     const el=list.querySelector('.me');if(el)el.scrollIntoView({block:'center'});
   }
 }
