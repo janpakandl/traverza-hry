@@ -57,6 +57,7 @@ h1{margin:0;font-family:var(--f-display);font-weight:400;font-size:clamp(42px,13
 h1 span{color:var(--amber)}
 .lead{margin:0;font-size:19px;line-height:1.3;color:#d8e0da;max-width:34ch}
 .pick-lbl{margin:4px 0 0;font-size:20px;font-weight:700;line-height:1.25;color:var(--amber)}
+.pick-lbl small a{color:var(--amber);font-weight:700}
 .pick-lbl small{display:block;font-size:15px;font-weight:600;color:var(--muted)}
 .pick{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .pick button{background:var(--board-2);border:3px solid #2c3a31;border-radius:10px;padding:10px 6px 8px;color:var(--chalk);
@@ -179,7 +180,7 @@ h1 span{color:var(--amber)}
     <label class="nick" for="nick"><span class="lbl">Tvoje přezdívka do žebříčku</span>
       <input id="nick" maxlength="20" autocomplete="nickname" enterkeyhint="done" placeholder="např. Pepa z obrany"></label>
     <p class="err" id="nick-err" hidden>Napiš přezdívku, ať tě najdeme v žebříčku.</p>
-    <p class="pick-lbl" id="pick-lbl">Vyber svůj obličej. Pokud není uveden, vyber Traverza <small>(Chceš svůj obličej? Pošli ho Hanzovi.)</small></p>
+    <p class="pick-lbl" id="pick-lbl">Vyber svůj obličej. Pokud není uveden, vyber Traverza <small>Chceš svůj obličej? Pošli přes WhatsApp na <a href="https://wa.me/420605591080" target="_blank" rel="noopener">605591080</a> a napiš své klady a zápory.</small></p>
     <div class="pick" role="radiogroup" aria-labelledby="pick-lbl" id="pick"></div>
     <ul class="rules">
       <li>Zaměřovač jezdí po bráně. Ťukni kamkoliv a kopeš. Na kop máš 5 vteřin, pak je to zdržování a chyba.</li>
