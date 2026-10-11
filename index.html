@@ -101,6 +101,23 @@ h1 span{color:var(--amber)}
 .next b{font-size:21px;line-height:1.15}
 .next span{font-size:17px;font-weight:600;color:#d8e0da}
 .next .cta{font-family:var(--f-display);font-size:15px;color:var(--amber);margin-top:2px}
+.prize{display:grid;grid-template-columns:52px minmax(0,1fr);gap:4px 12px;align-items:center;text-align:left;width:100%;
+  background:var(--amber);color:#1a1300;border:0;border-radius:10px;padding:10px 12px;font-family:var(--f-body);box-shadow:0 4px 0 #a37c00}
+.prize:active{transform:translateY(2px);box-shadow:0 2px 0 #a37c00}
+.prize .beer{width:52px;height:52px;grid-row:span 2}
+.prize-txt{display:flex;flex-direction:column;gap:2px}
+.prize-txt b{font-family:var(--f-display);font-weight:400;font-size:19px;line-height:1.1}
+.prize-txt span{font-size:16px;font-weight:600;line-height:1.2}
+.prize-more{font-size:15px;font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.prize-hero{display:flex;gap:14px;align-items:center;background:var(--amber);color:#1a1300;border-radius:10px;padding:12px 14px}
+.prize-hero .beer{width:64px;height:64px;flex:0 0 auto}
+.prize-hero p{margin:0;font-size:19px;font-weight:600;line-height:1.25}
+.prize-hero b{font-family:var(--f-display);font-weight:400}
+.steps{margin:0;padding-left:1.4em;display:flex;flex-direction:column;gap:10px;font-size:18px;line-height:1.3;color:#d8e0da}
+.steps b{color:var(--chalk)}
+.next-prize{margin:0;border:2px solid var(--amber);border-radius:8px;padding:10px 12px;font-size:17px;font-weight:600}
+.pos .beer{width:26px;height:26px;display:block;margin:0 auto}
+.today-prize{margin:0;font-size:16px;font-weight:600;color:var(--amber)}
 .rules{margin:0;padding-left:1.1em;color:#d8e0da;font-size:17px;line-height:1.35;display:flex;flex-direction:column;gap:4px}
 
 /* result card, built for a screenshot */
@@ -150,6 +167,11 @@ h1 span{color:var(--amber)}
       <b id="next-teams"></b>
     </div>
     <p class="lead">Celý okres čeká v bráně. Vyber, kdo jde k míči.</p>
+    <button class="prize" id="prize-open" type="button">
+      <svg class="beer" viewBox="0 0 48 48" aria-hidden="true"><path d="M10 15h22v25a3 3 0 0 1-3 3H13a3 3 0 0 1-3-3z" fill="#ffc832" stroke="#1a1300" stroke-width="2.5"/><path d="M32 20h4a4 4 0 0 1 4 4v7a4 4 0 0 1-4 4h-4" fill="none" stroke="#1a1300" stroke-width="2.5"/><path d="M8 15c0-4 3-7 7-6 1-3 5-4 7-2 2-2 6-2 8 1 3 0 5 3 4 7z" fill="#fff" stroke="#1a1300" stroke-width="2.5"/><path d="M17 23v13M24 23v13" stroke="#1a1300" stroke-width="2" opacity=".35"/></svg>
+      <span class="prize-txt"><b>Hraje se o pivo</b><span>Vítěz každého denního žebříčku bere cenu na domácím zápase.</span></span>
+      <span class="prize-more">Jak to funguje</span>
+    </button>
     <label class="nick" for="nick"><span class="lbl">Tvoje přezdívka do žebříčku</span>
       <input id="nick" maxlength="20" autocomplete="nickname" enterkeyhint="done" placeholder="např. Pepa z obrany"></label>
     <p class="err" id="nick-err" hidden>Napiš přezdívku, ať tě najdeme v žebříčku.</p>
@@ -184,7 +206,6 @@ h1 span{color:var(--amber)}
       <p class="r-best" id="r-best"></p>
     </div>
     <p class="saved" id="saved"></p>
-    <p class="shot">Udělej screenshot a hoď ho do skupiny.</p>
     <div class="row">
       <button id="again" class="btn">Znovu</button>
       <button id="res-board" class="btn">Žebříček</button>
@@ -193,10 +214,26 @@ h1 span{color:var(--amber)}
     <p class="credit">vyrobil Hanz</p>
   </section>
 
+  <section id="prizes" class="screen" hidden>
+    <div class="bhead"><h2 class="btitle">O co se hraje</h2><button id="prizes-back" class="ghost small">Zpět</button></div>
+    <div class="prize-hero"><svg class="beer" viewBox="0 0 48 48" aria-hidden="true"><path d="M10 15h22v25a3 3 0 0 1-3 3H13a3 3 0 0 1-3-3z" fill="#ffc832" stroke="#1a1300" stroke-width="2.5"/><path d="M32 20h4a4 4 0 0 1 4 4v7a4 4 0 0 1-4 4h-4" fill="none" stroke="#1a1300" stroke-width="2.5"/><path d="M8 15c0-4 3-7 7-6 1-3 5-4 7-2 2-2 6-2 8 1 3 0 5 3 4 7z" fill="#fff" stroke="#1a1300" stroke-width="2.5"/><path d="M17 23v13M24 23v13" stroke="#1a1300" stroke-width="2" opacity=".35"/></svg><p><b>Pivo pro vítěze dne.</b> Kdo je večer na 1. místě denního žebříčku, vyhrává.</p></div>
+    <ol class="steps">
+      <li><b>Každý den nový žebříček.</b> Počítá se od půlnoci do půlnoci, z každé přezdívky jen nejlepší výsledek.</li>
+      <li><b>Vítěz dne bere pivo</b> nebo jinou cenu, kterou připravíme.</li>
+      <li><b>Cenu vyzvedneš na domácím zápase Traverzy.</b> Stačí ukázat svou přezdívku v žebříčku daného dne.</li>
+      <li><b>Hraje se fér.</b> Podezřelé výsledky a sprosté přezdívky ze žebříčku mažeme a cenu nedostanou.</li>
+    </ol>
+    <p class="next-prize" id="prize-next" hidden></p>
+    <p class="hint">Pivo jen pro plnoleté. Mladší vítězové dostanou jinou cenu.</p>
+    <button id="prizes-play" class="btn">Jdu hrát</button>
+    <p class="credit">vyrobil Hanz</p>
+  </section>
+
   <section id="board" class="screen" hidden>
     <div class="bhead"><h2 class="btitle">Žebříček</h2><button id="board-back" class="ghost small">Zpět</button></div>
     <p class="me" id="board-me" hidden></p>
     <div class="days" id="days" role="tablist" aria-label="Den"></div>
+    <p class="today-prize" id="today-prize" hidden>Kdo bude dnes večer první, vyhrává pivo.</p>
     <ol class="list" id="list"></ol>
     <p class="hint" id="board-msg"></p>
     <button id="board-retry" class="ghost" hidden>Načíst znovu</button>
@@ -571,6 +608,7 @@ function showResult(){
 }
 
 /* ---------- leaderboard ---------- */
+const BEER='<svg class="beer" viewBox="0 0 48 48" aria-hidden="true"><path d="M10 15h22v25a3 3 0 0 1-3 3H13a3 3 0 0 1-3-3z" fill="#ffc832" stroke="#1a1300" stroke-width="2.5"/><path d="M32 20h4a4 4 0 0 1 4 4v7a4 4 0 0 1-4 4h-4" fill="none" stroke="#1a1300" stroke-width="2.5"/><path d="M8 15c0-4 3-7 7-6 1-3 5-4 7-2 2-2 6-2 8 1 3 0 5 3 4 7z" fill="#fff" stroke="#1a1300" stroke-width="2.5"/><path d="M17 23v13M24 23v13" stroke="#1a1300" stroke-width="2" opacity=".35"/></svg>';
 let BOARD=null,boardDay=null,lastRun=null,boardFrom='start',NEXT=null;
 const WD=['Ne','Po','Út','St','Čt','Pá','So'];
 function nextWhen(n){const [y,m,d]=n.date.split('-').map(Number);return {wd:WD[new Date(y,m-1,d).getDay()],dm:d+'. '+m+'.'};}
@@ -579,6 +617,7 @@ function renderNext(){
   const box=$('next');if(!NEXT){box.hidden=true;return;}
   const w=nextWhen(NEXT);
   $('next-teams').textContent=nextLine(NEXT);
+  const w2=nextWhen(NEXT);$('prize-next').textContent=`Nejbližší domácí zápas: ${w2.wd} ${w2.dm}${NEXT.time?' v '+NEXT.time:''}, Traverza - ${NEXT.away}.`;$('prize-next').hidden=false;
   box.hidden=false;
 }
 async function api(params){
@@ -631,9 +670,10 @@ function renderBoard(){
   list.innerHTML='';
   day.rows.forEach((r,i)=>{
     const li=document.createElement('li');if(me&&r.n.toLowerCase()===me)li.className='me';
-    li.innerHTML=`<span class="pos">${i+1}.</span>${FACES[r.h]?`<img src="${FACES[r.h]}" alt="">`:'<span></span>'}<span class="who"><b></b><small>poraženo ${Number(r.b)||0}</small></span><span class="pts">${Number(r.s)||0}</span>`;
+    li.innerHTML=`<span class="pos" ${i?'':'title="Vítěz dne"'}>${i?(i+1)+'.':BEER}</span>${FACES[r.h]?`<img src="${FACES[r.h]}" alt="">`:'<span></span>'}<span class="who"><b></b><small>poraženo ${Number(r.b)||0}</small></span><span class="pts">${Number(r.s)||0}</span>`;
     li.querySelector('b').textContent=r.n;list.appendChild(li);
   });
+  $('today-prize').hidden=day.day!==BOARD.today;
   if(!day.rows.length)$('board-msg').textContent=day.day===BOARD.today?'Dnes zatím nikdo nehrál. Buď první.':'Tenhle den nikdo nehrál.';
   $('board-me').hidden=!showMe;
   if(showMe){
@@ -708,6 +748,9 @@ $('go').addEventListener('click',()=>{
 });
 $('nick').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$('nick').blur();}});
 $('to-board').addEventListener('click',()=>openBoard('start'));
+$('prize-open').addEventListener('click',()=>{$('start').hidden=true;$('prizes').hidden=false;$('prizes').scrollTop=0;});
+$('prizes-back').addEventListener('click',()=>{$('prizes').hidden=true;$('start').hidden=false;});
+$('prizes-play').addEventListener('click',()=>{$('prizes').hidden=true;$('start').hidden=false;$('nick').focus();});
 $('res-board').addEventListener('click',()=>openBoard('result'));
 $('board-back').addEventListener('click',()=>{$('board').hidden=true;$(boardFrom).hidden=false;});
 $('board-retry').addEventListener('click',()=>openBoard(boardFrom));
