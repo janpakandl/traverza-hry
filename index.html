@@ -649,14 +649,18 @@ const ICON_ON=SPK+'<path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0
 const ICON_OFF=SPK+'<path d="M17 9l5 6M22 9l-5 6"/></svg>';
 let muted=store.get('traverza-mute')==='1',AC=null,MASTER=null,NOISE=null;
 function audioInit(){
-  if(AC){if(AC.state==='suspended')AC.resume().catch(()=>{});return;}
+  try{if(navigator.audioSession)navigator.audioSession.type='playback';}catch(e){}
+  if(AC){if(AC.state!=='running')AC.resume().catch(()=>{});return;}
   try{
     AC=new (window.AudioContext||window.webkitAudioContext)();
     MASTER=AC.createGain();MASTER.gain.value=.55;MASTER.connect(AC.destination);
     NOISE=AC.createBuffer(1,AC.sampleRate*2,AC.sampleRate);
     const d=NOISE.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;
+    const sil=AC.createBufferSource();sil.buffer=AC.createBuffer(1,1,22050);sil.connect(AC.destination);sil.start(0);
+    if(AC.state!=='running')AC.resume().catch(()=>{});
   }catch(e){AC=null;}
 }
+['touchend','pointerup','click','keydown'].forEach(ev=>document.addEventListener(ev,audioInit,{passive:true}));
 const on=()=>!muted&&AC&&AC.state==='running';
 function env(g,t,a,peak,hold,rel){g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(peak,t+a);g.gain.setValueAtTime(peak,t+a+hold);g.gain.exponentialRampToValueAtTime(0.0001,t+a+hold+rel);}
 function tone(type,f1,f2,start,dur,peak){
