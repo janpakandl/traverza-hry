@@ -182,7 +182,7 @@ h1 span{color:var(--amber)}
     <label class="nick" for="nick"><span class="lbl">Tvoje přezdívka do žebříčku</span>
       <input id="nick" maxlength="20" autocomplete="nickname" enterkeyhint="done" placeholder="např. Pepa z obrany"></label>
     <p class="err" id="nick-err" hidden>Napiš přezdívku, ať tě najdeme v žebříčku.</p>
-    <p class="pick-lbl" id="pick-lbl">Vyber svůj obličej. Pokud není uveden, vyber Traverza <small><button type="button" class="linkbtn" id="face-open">Nahraj svůj obličej</button></small></p>
+    <p class="pick-lbl" id="pick-lbl">Vyber si, za koho chceš kopat.</p>
     <div class="pick" role="radiogroup" aria-labelledby="pick-lbl" id="pick"></div>
     <ul class="rules">
       <li>Zaměřovač jezdí po bráně. Ťukni kamkoliv a kopeš. Na kop máš 5 vteřin, pak je to zdržování a chyba.</li>
@@ -799,7 +799,6 @@ $('go').addEventListener('click',()=>{
 });
 $('nick').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$('nick').blur();}});
 $('to-board').addEventListener('click',()=>openBoard('start'));
-$('face-open').addEventListener('click',()=>{$('start').hidden=true;$('face').hidden=false;$('face').scrollTop=0;});
 $('face-back').addEventListener('click',()=>{$('face').hidden=true;$('start').hidden=false;});
 $('prize-open').addEventListener('click',()=>{$('start').hidden=true;$('prizes').hidden=false;$('prizes').scrollTop=0;});
 $('prizes-back').addEventListener('click',()=>{$('prizes').hidden=true;$('start').hidden=false;});
