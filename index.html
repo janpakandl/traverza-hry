@@ -180,7 +180,7 @@ h1 span{color:var(--amber)}
     </div>
     <button class="prize" id="prize-open" type="button">
       <svg class="beer" viewBox="0 0 48 48" aria-hidden="true"><path d="M10 15h22v25a3 3 0 0 1-3 3H13a3 3 0 0 1-3-3z" fill="#ffc832" stroke="#1a1300" stroke-width="2.5"/><path d="M32 20h4a4 4 0 0 1 4 4v7a4 4 0 0 1-4 4h-4" fill="none" stroke="#1a1300" stroke-width="2.5"/><path d="M8 15c0-4 3-7 7-6 1-3 5-4 7-2 2-2 6-2 8 1 3 0 5 3 4 7z" fill="#fff" stroke="#1a1300" stroke-width="2.5"/><path d="M17 23v13M24 23v13" stroke="#1a1300" stroke-width="2" opacity=".35"/></svg>
-      <span class="prize-txt"><b>Hraje se o pivo</b><span>Tři nejlepší z týdenního žebříčku berou cenu na domácím zápase.</span></span>
+      <span class="prize-txt"><b>Hraje se o pivo</b><span id="prize-sub"></span></span>
       <span class="prize-more">Jak to funguje</span>
     </button>
     <label class="nick" for="nick"><span class="lbl">Tvoje přezdívka do žebříčku</span>
@@ -232,10 +232,10 @@ h1 span{color:var(--amber)}
 
   <section id="prizes" class="screen" hidden>
     <div class="bhead"><h2 class="btitle">O co se hraje</h2><button id="prizes-back" class="ghost small">Zpět</button></div>
-    <div class="prize-hero"><svg class="beer" viewBox="0 0 48 48" aria-hidden="true"><path d="M10 15h22v25a3 3 0 0 1-3 3H13a3 3 0 0 1-3-3z" fill="#ffc832" stroke="#1a1300" stroke-width="2.5"/><path d="M32 20h4a4 4 0 0 1 4 4v7a4 4 0 0 1-4 4h-4" fill="none" stroke="#1a1300" stroke-width="2.5"/><path d="M8 15c0-4 3-7 7-6 1-3 5-4 7-2 2-2 6-2 8 1 3 0 5 3 4 7z" fill="#fff" stroke="#1a1300" stroke-width="2.5"/><path d="M17 23v13M24 23v13" stroke="#1a1300" stroke-width="2" opacity=".35"/></svg><p><b>Pivo pro tři nejlepší týdne.</b> O ceny rozhoduje týdenní žebříček.</p></div>
+    <div class="prize-hero"><svg class="beer" viewBox="0 0 48 48" aria-hidden="true"><path d="M10 15h22v25a3 3 0 0 1-3 3H13a3 3 0 0 1-3-3z" fill="#ffc832" stroke="#1a1300" stroke-width="2.5"/><path d="M32 20h4a4 4 0 0 1 4 4v7a4 4 0 0 1-4 4h-4" fill="none" stroke="#1a1300" stroke-width="2.5"/><path d="M8 15c0-4 3-7 7-6 1-3 5-4 7-2 2-2 6-2 8 1 3 0 5 3 4 7z" fill="#fff" stroke="#1a1300" stroke-width="2.5"/><path d="M17 23v13M24 23v13" stroke="#1a1300" stroke-width="2" opacity=".35"/></svg><p id="prize-hero-txt"></p></div>
     <ol class="steps">
-      <li><b>Týden trvá od soboty do pátku.</b> Uzavírá se v pátek o půlnoci, takže v sobotu na zápase už jsou výsledky jasné.</li>
-      <li><b>Tři nejlepší skóre týdne vyhrávají</b> pivo nebo jinou cenu, kterou připravíme. Z každé přezdívky se počítá jen nejlepší výsledek.</li>
+      <li id="prize-s1"></li>
+      <li id="prize-s2"></li>
       <li><b>Ceny se předávají na domácím zápase Traverzy.</b> Stačí ukázat svou přezdívku v týdenním žebříčku.</li>
       <li><b>Denní žebříčky jsou jen pro zábavu,</b> ať se můžete hecovat každý den.</li>
       <li><b>Hraje se fér.</b> Podezřelé výsledky a sprosté přezdívky ze žebříčku mažeme a cenu nedostanou.</li>
@@ -251,7 +251,7 @@ h1 span{color:var(--amber)}
     <div class="bhead"><h2 class="btitle">Žebříček</h2><button id="board-back" class="ghost small">Zpět</button></div>
     <p class="me" id="board-me" hidden></p>
     <div class="modes" id="modes" role="tablist" aria-label="Žebříček" hidden>
-      <button id="m-week" role="tab" aria-selected="true">Týden o ceny</button>
+      <button id="m-week" role="tab" aria-selected="true"></button>
       <button id="m-day" role="tab" aria-selected="false">Denní</button>
     </div>
     <div class="days" id="days" role="tablist" aria-label="Období"></div>
@@ -663,7 +663,7 @@ async function submitRun(){
     const j=await api({action:'add',game:run.game,name:run.nick,player:run.pid,score:run.score,beaten:run.beaten,goals:run.goals});
     run.saved=true;BOARD=j;boardDay=j.today;
     const k=rankOf(j.days.find(x=>x.day===j.today),run),kw=weekRank(j,run.nick);
-    if(run===lastRun)$('saved').textContent=kw?`Uloženo. V týdnu jsi ${kw}.${kw<=3?' Jsi na cenách!':''} Dnes ${k}.`:k?`Uloženo. V dnešním žebříčku jsi ${k}.`:'Uloženo do žebříčku.';
+    if(run===lastRun)$('saved').textContent=kw?`Uloženo. ${GAME.period?'V žebříčku o ceny':'V týdnu'} jsi ${kw}.${kw<=3?' Jsi na cenách!':''} Dnes ${k}.`:k?`Uloženo. V dnešním žebříčku jsi ${k}.`:'Uloženo do žebříčku.';
   }catch(e){
     const why={noapi:'Žebříček zatím není zapojený.',bad_name:'Přezdívka neprošla filtrem, skóre se neuložilo.',bad_score:'Tohle skóre žebříček nepřijal.',too_fast:'Dvě hry moc rychle po sobě, tohle kolo se neuložilo.',busy:'Žebříček je teď přetížený, tohle kolo se neuložilo.'};
     if(['bad_name','bad_score','too_fast','busy'].includes(e.message))run.final=true;
@@ -706,13 +706,14 @@ function renderBoard(){
   let rows,prize=false,current=false,empty;
   if(boardMode==='week'){
     if(!BOARD.weeks.some(w=>w.start===boardWeek))boardWeek=BOARD.weeks[0].start;
-    $('days').innerHTML=BOARD.weeks.map((w,i)=>`<button role="tab" aria-selected="${w.start===boardWeek}" data-week="${w.start}">${i===0?'Tento týden':i===1?'Minulý týden':dm(w.start)+' – '+dm(w.end)}</button>`).join('');
+    $('days').innerHTML=BOARD.weeks.map((w,i)=>`<button role="tab" aria-selected="${w.start===boardWeek}" data-week="${w.start}">${i===0?(GAME.period?dm(w.start)+' – '+dm(w.end):'Tento týden'):i===1?'Minulý týden':dm(w.start)+' – '+dm(w.end)}</button>`).join('');
     const wk=BOARD.weeks.find(w=>w.start===boardWeek);
     rows=wk.rows;prize=true;current=wk===BOARD.weeks[0];
+    if(current&&!left(wk.end))current=false;
     $('board-info').textContent=current
-      ?`So ${dm(wk.start)} – pá ${dm(wk.end)} Žebříček končí v pátek ${dm(wk.end)} ve 23:59${left(wk.end)}. První tři berou cenu na domácím zápase.`
+      ?`So ${dm(wk.start)} – pá ${dm(wk.end)} Žebříček${GAME.period?' o ceny':''} končí v pátek ${dm(wk.end)} ve 23:59${left(wk.end)}. První tři berou cenu na domácím zápase.`
       :`So ${dm(wk.start)} – pá ${dm(wk.end)} Uzavřeno, ceny berou první tři.`;
-    empty=current?'Tento týden zatím nikdo nehrál. Buď první.':'Tenhle týden nikdo nehrál.';
+    empty=current?(GAME.period?'Zatím nikdo nehrál. Buď první.':'Tento týden zatím nikdo nehrál. Buď první.'):(GAME.period?'Nikdo nehrál.':'Tenhle týden nikdo nehrál.');
   }else{
     $('days').innerHTML=BOARD.days.map(x=>`<button role="tab" aria-selected="${x.day===boardDay}" data-day="${x.day}">${dayLabel(x.day,BOARD.today)}</button>`).join('');
     const day=BOARD.days.find(x=>x.day===boardDay)||BOARD.days[0];
@@ -732,7 +733,7 @@ function renderBoard(){
   $('board-me').hidden=!showMe;
   if(showMe){
     const mine=rows.find(r=>r.n.toLowerCase()===lastRun.nick.toLowerCase()),k=rows.indexOf(mine)+1;
-    $('board-me').textContent=`Tvoje kolo: ${lastRun.score} bodů.`+(k?(boardMode==='week'?` V týdenním žebříčku jsi ${k}.`:` V dnešním žebříčku jsi ${k}.`):'')
+    $('board-me').textContent=`Tvoje kolo: ${lastRun.score} bodů.`+(k?(boardMode==='week'?`${GAME.period?' V žebříčku o ceny':' V týdenním žebříčku'} jsi ${k}.`:` V dnešním žebříčku jsi ${k}.`):'')
       +(mine&&mine.s>lastRun.score?` Počítá se tvůj nejlepší výsledek ${mine.s}.`:'')+(boardMode==='week'&&k&&k<=3?' Teď jsi na cenách!':'');
     const el=list.querySelector('.me');if(el)el.scrollIntoView({block:'center'});
   }
@@ -1150,6 +1151,10 @@ const SLALOM={id:'slalom',title:'Dej Liblicím 11',bLabel:'obejito',eye:'Liblice
   rules:['Hraješ za Nučice v Liblicích. Ťukni vlevo nebo vpravo od hráče a uhneš o dráhu. Na počítači šipky.','Obejdi obránce. Každých 11 obejitých je gól a začíná těžší kolo.',
     'Obránci zakopávají, kopou do vzduchu a srážejí se. Ležící obránce je taky překážka.','Máš 3 životy. Po nárazu chvíli blikáš a projdeš čímkoliv, třetí náraz hru ukončí.'],
   sw:'Hrát penalty (mají vlastní žebříček)',
+  period:{start:'2026-10-17',end:'2026-10-30'},   // stejné období jako OBDOBI ve skriptu žebříčku
+  prize:{sub:'Tři nejlepší do pátku 30. 10. berou cenu na domácím zápase.',hero:'<b>Pivo pro tři nejlepší.</b> O ceny rozhoduje jeden žebříček za celou hru, od 17. do 30. 10.',
+    s1:'<b>Žebříček o ceny běží od soboty 17. 10. do pátku 30. 10.</b> Uzavírá se v pátek o půlnoci, takže v sobotu na zápase už jsou výsledky jasné.',
+    s2:'<b>Tři nejlepší skóre vyhrávají</b> pivo nebo jinou cenu, kterou připravíme. Z každé přezdívky se počítá jen nejlepší výsledek.',tab:'O ceny do 30. 10.'},
   newRun:slNewRun,update:slUpdate,draw:slDraw,
   tap(x){if(S)slMove(x<S.px?-1:1);},
   key(e){if(e.code==='ArrowLeft'||e.code==='KeyA'){e.preventDefault();slMove(-1);}else if(e.code==='ArrowRight'||e.code==='KeyD'){e.preventDefault();slMove(1);}},
@@ -1163,6 +1168,9 @@ const GAMES={
       'Na každého soupeře 5 penalt. 3 góly a jdeš dál, 3 chyby a sezóna končí.','Góly v řadě dávají bonus. Každý další soupeř chytá líp.',
       'Na konci sezóny derby: Liblice, Břežany a Tuklaty. Chytají nejlíp, ale gól je za dvojnásob a výhra za 900.'],
     sw:'Zpět na novou hru: Dej Liblicím 11',
+    prize:{sub:'Tři nejlepší z týdenního žebříčku berou cenu na domácím zápase.',hero:'<b>Pivo pro tři nejlepší týdne.</b> O ceny rozhoduje týdenní žebříček.',
+      s1:'<b>Týden trvá od soboty do pátku.</b> Uzavírá se v pátek o půlnoci, takže v sobotu na zápase už jsou výsledky jasné.',
+      s2:'<b>Tři nejlepší skóre týdne vyhrávají</b> pivo nebo jinou cenu, kterou připravíme. Z každé přezdívky se počítá jen nejlepší výsledek.',tab:'Týden o ceny'},
     newRun:penNewRun,update:penUpdate,draw:penDraw,tap:()=>shoot(),
     key(e){if((e.code==='Space'||e.code==='Enter')&&S.phase==='aim'){e.preventDefault();shoot();}},
     idle(){$('home').textContent='TRAVERZA';$('dots').classList.remove('s');$('dots').innerHTML='';$('d-g').textContent=0;$('d-m').textContent=0;$('opp').textContent='SOUPEŘ';
@@ -1175,6 +1183,7 @@ function setGame(id){
   document.title=GAME.title;
   $('st-eye').textContent=GAME.eye;$('st-h1').innerHTML=GAME.h1;$('go').textContent=GAME.go;$('switch').textContent=GAME.sw;
   $('st-rules').innerHTML=GAME.rules.map(x=>`<li>${x}</li>`).join('');
+  const P=GAME.prize;$('prize-sub').textContent=P.sub;$('prize-hero-txt').innerHTML=P.hero;$('prize-s1').innerHTML=P.s1;$('prize-s2').innerHTML=P.s2;$('m-week').textContent=P.tab;
   GAME.idle();
   api({action:'list'}).then(j=>{if(GAME.id===id)BOARD=j;}).catch(()=>{});
 }
