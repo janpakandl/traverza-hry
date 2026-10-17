@@ -1,4 +1,4 @@
-<!doctype html><html lang="cs"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#111613"><meta name="description" content="Hra Traverzy Rostoklaty. Vyber si hráče, kličkuj mezi obránci a porovnej se s ostatními v žebříčku."><meta property="og:type" content="website"><meta property="og:url" content="https://janpakandl.github.io/traverza-penalty/"><meta property="og:title" content="Traverza: zahraj si"><meta property="og:description" content="Vyber si hráče, kličkuj mezi obránci a porovnej se s ostatními v žebříčku."><meta property="og:image" content="https://janpakandl.github.io/traverza-penalty/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" href="favicon.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Traverza"><meta name="apple-mobile-web-app-status-bar-style" content="black"><style>*,*::before,*::after{box-sizing:border-box}body{margin:0}img{max-width:100%}</style></head><body><title>Traverza Slalom</title>
+<!doctype html><html lang="cs"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#111613"><meta name="description" content="Hra Traverzy Rostoklaty. Vyber si hráče, kličkuj mezi obránci a porovnej se s ostatními v žebříčku."><meta property="og:type" content="website"><meta property="og:url" content="https://janpakandl.github.io/traverza-penalty/"><meta property="og:title" content="Traverza: zahraj si"><meta property="og:description" content="Vyber si hráče, kličkuj mezi obránci a porovnej se s ostatními v žebříčku."><meta property="og:image" content="https://janpakandl.github.io/traverza-penalty/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" href="favicon.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Traverza"><meta name="apple-mobile-web-app-status-bar-style" content="black"><style>*,*::before,*::after{box-sizing:border-box}body{margin:0}img{max-width:100%}</style></head><body><title>Dej Liblicím 11</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Barlow+Condensed:wght@500;600;700&display=swap">
@@ -1136,7 +1136,7 @@ function slLives(){
   }
 }
 function slResult(){
-  showCard({title:'Traverza Slalom',rank:SL_RANKS.filter(r=>S.passed>=r[0]).pop()[1],score:S.score,beaten:S.passed,goals:S.goals,
+  showCard({title:'Dej Liblicím 11',rank:SL_RANKS.filter(r=>S.passed>=r[0]).pop()[1],score:S.score,beaten:S.passed,goals:S.goals,
     stats:[['Góly',S.goals],['Obejito',S.passed],['Kolo',S.kolo]],chipsLbl:'Obrana se sejmula sama',
     chips:`<span class="chip plain">Pádů ${S.falls}</span><span class="chip plain">Kopů do vzduchu ${S.whiffs}</span><span class="chip plain">Srážek ${S.crashes}</span>`});
 }
@@ -1146,7 +1146,7 @@ Object.assign(SFX,{
   thud(){if(!on())return;tone('sine',140,45,0,.22,.7);noise('lowpass',400,.5,0,.005,.35,.03,.15);},
   crash(){if(!on())return;tone('square',220,70,0,.25,.12);SFX.thud();}
 });
-const SLALOM={id:'slalom',title:'Traverza Slalom',bLabel:'obejito',eye:'Okresní slalom · sezóna 2026/27',h1:'Traverza <span>Slalom</span>',go:'Na hřiště',
+const SLALOM={id:'slalom',title:'Dej Liblicím 11',bLabel:'obejito',eye:'Liblice - Nučice · sezóna 2026/27',h1:'Dej Liblicím <span>11</span>',go:'Na hřiště',
   rules:['Hraješ za Nučice v Liblicích. Ťukni vlevo nebo vpravo od hráče a uhneš o dráhu. Na počítači šipky.','Obejdi obránce. Každých 11 obejitých je gól a začíná těžší kolo.',
     'Obránci zakopávají, kopou do vzduchu a srážejí se. Ležící obránce je taky překážka.','Máš 3 životy. Po nárazu chvíli blikáš a projdeš čímkoliv, třetí náraz hru ukončí.'],
   sw:'Hrát penalty (mají vlastní žebříček)',
@@ -1162,7 +1162,7 @@ const GAMES={
     rules:['Zaměřovač jezdí po bráně. Ťukni kamkoliv a kopeš. Na kop máš 5 vteřin, pak je to zdržování a chyba.',
       'Na každého soupeře 5 penalt. 3 góly a jdeš dál, 3 chyby a sezóna končí.','Góly v řadě dávají bonus. Každý další soupeř chytá líp.',
       'Na konci sezóny derby: Liblice, Břežany a Tuklaty. Chytají nejlíp, ale gól je za dvojnásob a výhra za 900.'],
-    sw:'Zpět na novou hru: Slalom',
+    sw:'Zpět na novou hru: Dej Liblicím 11',
     newRun:penNewRun,update:penUpdate,draw:penDraw,tap:()=>shoot(),
     key(e){if((e.code==='Space'||e.code==='Enter')&&S.phase==='aim'){e.preventDefault();shoot();}},
     idle(){$('home').textContent='TRAVERZA';$('dots').classList.remove('s');$('dots').innerHTML='';$('d-g').textContent=0;$('d-m').textContent=0;$('opp').textContent='SOUPEŘ';
