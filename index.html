@@ -884,7 +884,7 @@ function slFire(d,Q){
   if(d.kind==='step'){d.st='step';return;}
   if(d.kind==='pair'){d.st='run';return;}
   if(d.kind==='charge'){d.st='charge';return;}
-  if(d.kind==='slide'){d.st='slide';d.ang=-d.dir*Math.PI/2;d.x+=d.dir*Q.lw*.45;SFX.whiff();slFx(d.x,d.y-Q.h*.5,'SKLUZ');$('comment').textContent=rnd(SLL.slide);return;}
+  if(d.kind==='slide'){d.st='slide';d.ang=-d.dir*Math.PI/2;d.x+=d.dir*Q.lw*.45;SFX.whiff();slFx(d.x,d.y-Q.h*.5,'SÁNĚ');$('comment').textContent=rnd(SLL.slide);return;}
   if(d.kind==='domino'){d.st='stumble';slFx(d.x,d.y-Q.h,'JEJDA');$('comment').textContent=rnd(SLL.domino);}
 }
 function slDef(d,dt,Q,v){
@@ -904,7 +904,7 @@ function slDef(d,dt,Q,v){
       if(d.mode==='side')d.ang=d.dir*Math.PI/2*f;else{d.sc=1-.6*f;d.ang=d.dir*.2*f;}
       d.wob=0;
       if(d.next&&d.t>.2&&d.next.st==='idle'){d.next.st='stumble';d.next.t=.2;}
-      if(d.t>=.32){d.st='down';d.dz=1;SFX.thud();}
+      if(d.t>=.32){d.st='down';d.dz=1;SFX.thud();const hp=slHead(d,Q);slFx(hp[0],hp[1]-Q.h*.15,rnd(['AU','SAKRA']));}
       break;}
     case 'step':
       d.x+=Math.sign(d.tx-d.x)*Q.lw*2.4*dt;d.wob=Math.sin(d.t*14)*.1;
@@ -914,7 +914,7 @@ function slDef(d,dt,Q,v){
       d.x+=d.dir*Q.lw*2.1*dt;d.wob=Math.sin(d.t*16)*.12;d.leg=Math.abs(Math.sin(d.t*12))*.5;
       if(d.mate&&Math.abs(d.x-d.mate.x)<Q.w*1.15&&d.mate.st==='run'){
         for(const m of[d,d.mate]){m.st='fall';m.t=0;m.mode='back';m.dir=-m.dir;m.x+=m.dir*Q.w*.35;m.leg=0;}
-        S.crashes++;S.falls+=2;SFX.crash();slFx((d.x+d.mate.x)/2,d.y-Q.h*.95,'BUM');$('comment').textContent=rnd(SLL.crash);
+        S.crashes++;S.falls+=2;SFX.crash();slFx((d.x+d.mate.x)/2,d.y-Q.h*.95,'ČUM VOE');$('comment').textContent=rnd(SLL.crash);
       }
       break;
     case 'charge':   // vybíhá proti hráči, kopne do vzduchu a lehne si
@@ -1119,7 +1119,7 @@ function slDraw(){
     for(const f of S.fx){
       const a=1-f.t/f.dur;ctx.globalAlpha=Math.max(0,a);ctx.fillStyle='#ffc832';
       ctx.font=`${Math.min(22,W*.06)}px Bungee, Impact, sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';
-      ctx.fillText(f.txt,f.x,f.y-f.t*30);ctx.globalAlpha=1;
+      const tw=ctx.measureText(f.txt).width/2+6;ctx.fillText(f.txt,clamp(f.x,tw,W-tw),f.y-f.t*30);ctx.globalAlpha=1;
     }
     slLives();
     if(S.banner)drawBanner();
