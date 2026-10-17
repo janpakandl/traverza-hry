@@ -159,7 +159,7 @@ h1 span{color:var(--amber)}
 
 <div id="app">
   <header class="board" aria-label="Skóre">
-    <div class="team home"><span class="lbl">Domácí</span><b>TRAVERZA</b></div>
+    <div class="team home"><span class="lbl">Domácí</span><b id="home">TRAVERZA</b></div>
     <div class="digits"><span id="d-g">0</span>:<span id="d-m">0</span></div>
     <div class="team r"><span class="lbl">Hosté</span><b id="opp">SOUPEŘ</b></div>
   </header>
@@ -360,7 +360,7 @@ function startMatch(){
 function hud(){
   const g=S.shots.filter(s=>s==='g').length,m=S.shots.length-g;
   $('d-g').textContent=g;$('d-m').textContent=m;$('opp').textContent=opp().n.toUpperCase();
-  $('dots').classList.remove('s');$('round').textContent=opp().d?'DERBY ×2':`Zápas ${S.lvl+1}/11${S.lap?' (odveta)':''}`;
+  $('home').textContent='TRAVERZA';$('dots').classList.remove('s');$('round').textContent=opp().d?'DERBY ×2':`Zápas ${S.lvl+1}/11${S.lap?' (odveta)':''}`;
   $('score').textContent=S.score;
   let d='';for(let i=0;i<5;i++){const s=S.shots[i];d+=`<span class="dot ${s||''}"></span>`;}
   $('dots').innerHTML=d;
@@ -945,16 +945,16 @@ function slPass(){
   S.score+=10*S.kolo;S.passed++;
   if(S.passed%11===0){
     S.goals++;S.kolo++;const g=100*S.goals;S.score+=g;
-    floatText('GÓL +'+g);SFX.goal();S.ballGoal=1;
+    SFX.goal();S.ballGoal=1;
     $('comment').textContent=rnd(SLL.goal);
-    S.phase='banner';S.t=0;S.banner={a:`GÓL! KOLO ${S.kolo}`,b:SL_NEW[Math.min(S.kolo,6)]||'JEŠTĚ RYCHLEJI',dur:1.9,next:'run',board:true};
+    S.phase='banner';S.t=0;S.banner={a:`GÓL! KOLO ${S.kolo}`,b:SL_NEW[Math.min(S.kolo,6)]||'JEŠTĚ RYCHLEJI',dur:1.9,next:'run'};
     if(S.kolo>6)S.banner.b='JEŠTĚ RYCHLEJI A VÍC PÁDŮ';
     S.spawnIn=Math.max(S.spawnIn,H*.3);
   }
   slHud();
 }
 function slHud(){
-  $('d-g').textContent=S?S.goals:0;$('d-m').textContent=0;$('opp').textContent='OBRANA';
+  $('home').textContent='LIBLICE';$('opp').textContent='NUČICE';$('d-g').textContent=1;$('d-m').textContent=S?S.goals:0;
   $('round').textContent='Kolo '+(S?S.kolo:1);$('score').textContent=S?S.score:0;
   const n=S?S.passed%11:0;let d='';for(let i=0;i<11;i++)d+=`<span class="dot ${i<n?'g':''}"></span>`;
   $('dots').classList.add('s');$('dots').innerHTML=d;
@@ -1097,8 +1097,8 @@ function slDrawMe(Q){
   const by=y+r*.8,bw=r*1.05;
   ctx.strokeStyle='#f0c8a0';ctx.lineWidth=r*.28;ctx.lineCap='round';
   for(const s of[-1,1]){const k=Math.sin(t*14+(s>0?Math.PI:0))*r*.35;ctx.beginPath();ctx.moveTo(x+s*bw*.22,by+r*.9);ctx.lineTo(x+s*bw*.25,by+r*1.35+k);ctx.stroke();}
-  ctx.fillStyle='#2a5bd7';ctx.beginPath();ctx.roundRect(x-bw/2,by,bw,r*1.0,r*.25);ctx.fill();
-  ctx.fillStyle='#fff';ctx.font=`${r*.5}px Bungee, Impact, sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('T',x,by+r*.48);
+  ctx.fillStyle='#ff8fb1';ctx.beginPath();ctx.roundRect(x-bw/2,by,bw,r*1.0,r*.25);ctx.fill();
+  ctx.fillStyle='#111';ctx.font=`${r*.5}px Bungee, Impact, sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('N',x,by+r*.48);
   ctx.save();ctx.translate(x,y);ctx.rotate(Math.sin(t*7)*.06+(S&&S.phase==='crash'?sh*.6:0));
   ctx.beginPath();ctx.arc(0,0,r,0,Math.PI*2);ctx.fillStyle='#ddd';ctx.fill();
   ctx.save();ctx.clip();if(img&&img.complete&&img.naturalWidth)ctx.drawImage(img,-r,-r,r*2,r*2);ctx.restore();
@@ -1148,7 +1148,7 @@ Object.assign(SFX,{
   crash(){if(!on())return;tone('square',220,70,0,.25,.12);SFX.thud();}
 });
 const SLALOM={id:'slalom',title:'Traverza Slalom',bLabel:'obejito',eye:'Okresní slalom · sezóna 2026/27',h1:'Traverza <span>Slalom</span>',go:'Na hřiště',
-  rules:['Ťukni vlevo nebo vpravo od hráče a uhneš o dráhu. Na počítači šipky.','Obejdi obránce. Každých 11 obejitých je gól a začíná těžší kolo.',
+  rules:['Hraješ za Nučice v Liblicích. Ťukni vlevo nebo vpravo od hráče a uhneš o dráhu. Na počítači šipky.','Obejdi obránce. Každých 11 obejitých je gól a začíná těžší kolo.',
     'Obránci zakopávají, kopou do vzduchu a srážejí se. Ležící obránce je taky překážka.','Máš 3 životy. Po nárazu chvíli blikáš a projdeš čímkoliv, třetí náraz hru ukončí.'],
   sw:'Hrát penalty (mají vlastní žebříček)',
   newRun:slNewRun,update:slUpdate,draw:slDraw,
@@ -1166,7 +1166,7 @@ const GAMES={
     sw:'Zpět na novou hru: Slalom',
     newRun:penNewRun,update:penUpdate,draw:penDraw,tap:()=>shoot(),
     key(e){if((e.code==='Space'||e.code==='Enter')&&S.phase==='aim'){e.preventDefault();shoot();}},
-    idle(){$('dots').classList.remove('s');$('dots').innerHTML='';$('d-g').textContent=0;$('d-m').textContent=0;$('opp').textContent='SOUPEŘ';
+    idle(){$('home').textContent='TRAVERZA';$('dots').classList.remove('s');$('dots').innerHTML='';$('d-g').textContent=0;$('d-m').textContent=0;$('opp').textContent='SOUPEŘ';
       $('round').textContent='Zápas 1/11';$('score').textContent=0;$('comment').textContent='Ťukni na hřiště a pal.';}},
   slalom:SLALOM
 };
