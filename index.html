@@ -962,7 +962,7 @@ function slHud(){
 function slNewRun(){
   const p=PLAYERS.find(x=>x.id===pick);
   S={pid:p.id,name:p.name,lane:2,px:laneX(2),passed:0,goals:0,kolo:1,score:0,defs:[],spawnIn:H*.05,dist:0,time:0,t:0,
-     phase:'banner',banner:{a:'KOLO 1',b:SL_NEW[1],dur:1.7,next:'run',board:true},falls:0,whiffs:0,crashes:0,shake:0,fx:[],ballGoal:0,run:0,lives:3,inv:0};
+     phase:'banner',banner:{a:'KOLO 1',b:SL_NEW[1],dur:1.7,next:'run'},falls:0,whiffs:0,crashes:0,shake:0,fx:[],ballGoal:0,run:0,lives:3,inv:0};
   $('comment').textContent='Ťukni vlevo nebo vpravo od hráče a uhneš o dráhu.';
   slHud();
 }
@@ -1111,7 +1111,6 @@ function slDraw(){
   ctx.clearRect(0,0,W,H);
   slPitch();
   const Q=slGeo();
-  if(!S||(S.banner&&S.banner.board))drawNext(H*.035,Math.min(64,H*.1));
   if(S){
     const ds=S.defs.slice().sort((a,b)=>a.y-b.y);
     let me=false;
