@@ -879,7 +879,7 @@ function slHead(d,Q){const s=Q.h*.86;return [d.x+Math.sin(d.ang)*s,d.y-Math.cos(
 function slFire(d,Q){
   d.t=0;
   if(d.kind==='stand'){d.st='wob';return;}
-  if(d.kind==='whiff'){d.st='swing';S.whiffs++;SFX.whiff();slFx(d.x,d.y-Q.h,'ŠVIH');$('comment').textContent=rnd(SLL.whiff);return;}
+  if(d.kind==='whiff'){d.st='swing';S.whiffs++;SFX.whiff();slFx(d.x,d.y-Q.h,'MÁM');$('comment').textContent=rnd(SLL.whiff);return;}
   if(d.kind==='trip'){d.st='stumble';slFx(d.x,d.y-Q.h,'JEJDA');$('comment').textContent=rnd(SLL.trip);return;}
   if(d.kind==='step'){d.st='step';return;}
   if(d.kind==='pair'){d.st='run';return;}
